@@ -53,10 +53,10 @@ struct ContentView: View {
         
         guard answer.count > 0 else { return }
         
-//        guard isOriginal(word: answer) else {
-//            wordError(title: "Word used already", message: "Be more original!")
-//            return
-//        }
+        guard answer != rootWord else {
+            wordError(title: "This is the original word", message: "Be more original!")
+            return
+        }
         
         guard isOriginal(word: answer) else {
             wordError(title: "Word used already", message: "Be more original!")
