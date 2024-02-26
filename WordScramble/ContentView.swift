@@ -53,6 +53,11 @@ struct ContentView: View {
         
         guard answer.count > 0 else { return }
         
+//        guard isOriginal(word: answer) else {
+//            wordError(title: "Word used already", message: "Be more original!")
+//            return
+//        }
+        
         guard isOriginal(word: answer) else {
             wordError(title: "Word used already", message: "Be more original!")
             return
@@ -79,6 +84,8 @@ struct ContentView: View {
             if let startWords = try? String(contentsOf: startWordsURL) {
                 let allWords = startWords.components(separatedBy: .newlines)
                 rootWord = allWords.randomElement() ?? "scramble"
+                usedWords.removeAll()
+                newWord = ""
                 return
             }
         }
