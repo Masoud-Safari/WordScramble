@@ -16,6 +16,8 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var showingError = false
     
+    @FocusState private var isInputTextFieldFocused: Bool
+    
     var body: some View {
         NavigationStack {
             List {
@@ -23,6 +25,7 @@ struct ContentView: View {
                     TextField("Enter your word", text: $newWord)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled(true)
+                        .focused($isInputTextFieldFocused)
                 }
                 
                 Section {
@@ -37,7 +40,11 @@ struct ContentView: View {
             .navigationTitle(rootWord)
             .onSubmit(addNewWord)
             .onAppear(perform: startGame)
-            .alert(errorTitle, isPresented: $showingError) { } message: {
+            .alert(errorTitle, isPresented: $showingError) {
+                Button("OK") {
+                    isInputTextFieldFocused = true
+                }
+            } message: {
                 Text(errorMessage)
             }
             .toolbar {
@@ -77,6 +84,8 @@ struct ContentView: View {
             usedWords.insert(answer, at: 0)
         }
         newWord = ""
+        
+        isInputTextFieldFocused = true
     }
     
     func startGame() {
@@ -86,6 +95,7 @@ struct ContentView: View {
                 rootWord = allWords.randomElement() ?? "scramble"
                 usedWords.removeAll()
                 newWord = ""
+                isInputTextFieldFocused = true
                 return
             }
         }
