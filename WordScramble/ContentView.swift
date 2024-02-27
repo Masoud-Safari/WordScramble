@@ -16,6 +16,8 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var showingError = false
     
+    @State private var score = 0
+    
     @FocusState private var isInputTextFieldFocused: Bool
     
     var body: some View {
@@ -52,6 +54,8 @@ struct ContentView: View {
                     startGame()
                 }
             }
+            
+            Text("Your Score: \(score)").padding()
         }
     }
     
@@ -83,6 +87,9 @@ struct ContentView: View {
         withAnimation {
             usedWords.insert(answer, at: 0)
         }
+        
+        score += answer.count
+        
         newWord = ""
         
         isInputTextFieldFocused = true
@@ -95,6 +102,7 @@ struct ContentView: View {
                 rootWord = allWords.randomElement() ?? "scramble"
                 usedWords.removeAll()
                 newWord = ""
+                score = 0
                 isInputTextFieldFocused = true
                 return
             }
